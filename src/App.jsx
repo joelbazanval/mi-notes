@@ -16,6 +16,9 @@ import {
   EyeOff,
 } from 'lucide-react'
 import './App.css'
+import { supabase } from './supabase'
+
+
 
 const STORAGE_KEY = 'mi-notes-data'
 
@@ -90,6 +93,7 @@ function App() {
   const [selectedTags, setSelectedTags] = useState([])
   const [excludedTags, setExcludedTags] = useState([])
 const fileInputRef = useRef(null)
+
 
   /*
    * GUARDADO AUTOMÁTICO
@@ -254,7 +258,7 @@ function toggleExcludedTag(tag) {
    * CREAR NOTA
    */
 
-  function createNote() {
+  async function createNote() {
     const now = Date.now()
 
     const newNote = {
@@ -269,10 +273,30 @@ function toggleExcludedTag(tag) {
       updatedAt: now,
     }
 
-    setNotes((current) => [
-      newNote,
-      ...current,
-    ])
+   setNotes((current) => [
+  newNote,
+  ...current,
+])
+
+const { data, error } = await supabase
+  .from('notes')
+  .insert({
+    id: String(newNote.id),
+    title: newNote.title,
+    content: newNote.content,
+    tags: newNote.tags,
+    pinned: newNote.pinned,
+    favorite: newNote.favorite,
+    deleted: newNote.deleted,
+    created_at: new Date(newNote.createdAt).toISOString(),
+    updated_at: new Date(newNote.updatedAt).toISOString(),
+  })
+
+if (error) {
+  console.error('Error guardando nota en Supabase:', error)
+} else {
+  console.log('Nota guardada en Supabase:', data)
+}
 
     setSelectedId(newNote.id)
     setActiveSection('all')
