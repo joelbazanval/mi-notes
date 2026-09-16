@@ -82,7 +82,7 @@ function loadNotes() {
 }
 
 function App() {
-  const [notes, setNotes] = useState(loadNotes)
+const [notes, setNotes] = useState([])
   const [selectedId, setSelectedId] = useState(1)
   const [search, setSearch] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -99,12 +99,48 @@ const fileInputRef = useRef(null)
    * GUARDADO AUTOMÁTICO
    */
 
-  useEffect(() => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(notes)
-    )
-  }, [notes])
+useEffect(() => {
+  async function loadNotesFromSupabase() {
+    const { data, error } = await supabase
+      .from('notes')
+      .select('*')
+      .order('updated_at', {
+        ascending: false,
+      })
+
+    if (error) {
+      console.error(
+        'Error cargando notas desde Supabase:',
+        error
+      )
+      return
+    }
+
+    const loadedNotes = data.map((note) => ({
+      id: Number(note.id),
+      title: note.title,
+      content: note.content,
+      tags: note.tags || [],
+      pinned: note.pinned,
+      favorite: note.favorite,
+      deleted: note.deleted,
+      createdAt: new Date(
+        note.created_at
+      ).getTime(),
+      updatedAt: new Date(
+        note.updated_at
+      ).getTime(),
+    }))
+
+    setNotes(loadedNotes)
+
+    if (loadedNotes.length > 0) {
+      setSelectedId(loadedNotes[0].id)
+    }
+  }
+
+  loadNotesFromSupabase()
+}, [])
 
   /*
    * NOTAS
@@ -308,23 +344,41 @@ if (error) {
    * ACTUALIZAR NOTA
    */
 
-  function updateNote(
-    field,
-    value
-  ) {
-    setNotes((current) =>
-      current.map((note) =>
-        note.id === selectedId
-          ? {
+async function updateNote(
+  field,
+  value
+) {
+  setNotes((current) =>
+    current.map((note) =>
+      note.id === selectedId
+        ? {
             ...note,
             [field]: value,
             updatedAt: Date.now(),
           }
-          : note
-      )
+        : note
+    )
+  )
+
+  const { error } = await supabase
+    .from('notes')
+    .update({
+      [field === 'createdAt'
+        ? 'created_at'
+        : field === 'updatedAt'
+        ? 'updated_at'
+        : field]: value,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', String(selectedId))
+
+  if (error) {
+    console.error(
+      'Error actualizando nota en Supabase:',
+      error
     )
   }
-
+}
   /*
    * FAVORITA
    */
