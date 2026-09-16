@@ -1,0 +1,699 @@
+:root {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  color: #e8e8e8;
+  background: #111111;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #111111;
+}
+
+/* ========================================
+   APP
+======================================== */
+
+.app {
+  display: grid;
+  grid-template-columns: 230px 320px minmax(0, 1fr);
+  width: 100%;
+  height: 100dvh;
+  background: #111111;
+}
+
+/* ========================================
+   SIDEBAR
+======================================== */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px 14px;
+  background: #171717;
+  border-right: 1px solid #292929;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #f5f5f5;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #e8e8e8;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.new-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 9px;
+  background: #e8e8e8;
+  color: #111111;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.new-note:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 22px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 10px 11px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #999999;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-item:hover {
+  background: #222222;
+  color: #eeeeee;
+}
+
+.nav-item.active {
+  background: #242424;
+  color: #ffffff;
+}
+
+.nav-item span {
+  margin-left: auto;
+  color: #666666;
+  font-size: 11px;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: auto;
+}
+
+/* ========================================
+   NOTES PANEL
+======================================== */
+
+.notes-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #141414;
+  border-right: 1px solid #292929;
+}
+
+.notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 76px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #292929;
+}
+
+.notes-header h1 {
+  margin: 0;
+  color: #f3f3f3;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.notes-header p {
+  margin: 3px 0 0;
+  color: #666666;
+  font-size: 11px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 38px;
+  margin: 14px;
+  padding: 0 12px;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  background: #1b1b1b;
+  color: #666666;
+}
+
+.search:focus-within {
+  border-color: #444444;
+}
+
+.search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #eeeeee;
+  font: inherit;
+  font-size: 12px;
+}
+
+.search input::placeholder {
+  color: #5d5d5d;
+}
+
+.notes-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px 16px;
+}
+
+.notes-list::-webkit-scrollbar,
+.content-input::-webkit-scrollbar {
+  width: 5px;
+}
+
+.notes-list::-webkit-scrollbar-thumb,
+.content-input::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 10px;
+}
+
+/* ========================================
+   NOTE CARD
+======================================== */
+
+.note-card {
+  display: block;
+  width: 100%;
+  margin-bottom: 4px;
+  padding: 13px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #eeeeee;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.note-card:hover {
+  background: #1d1d1d;
+}
+
+.note-card.selected {
+  background: #242424;
+  border-color: #303030;
+}
+
+.note-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.note-card h2 {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  margin: 0;
+  color: #eeeeee;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.note-card-top svg {
+  flex-shrink: 0;
+  color: #777777;
+}
+
+.note-card > p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 7px 0 10px;
+  color: #777777;
+  font-size: 11px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.note-meta span,
+.tag-editor span {
+  color: #858585;
+  font-size: 10px;
+}
+
+/* ========================================
+   EDITOR
+======================================== */
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  background: #111111;
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 76px;
+  padding: 16px 28px;
+  border-bottom: 1px solid #242424;
+}
+
+.editor-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #777777;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.icon-button:hover {
+  background: #222222;
+  color: #eeeeee;
+}
+
+.icon-button:active {
+  transform: scale(0.94);
+}
+
+.icon-button.active-pin {
+  background: #1e2a3a;
+  color: #7fb3ff;
+}
+
+.icon-button.active-star {
+  background: #302a19;
+  color: #f0c96a;
+}
+
+.icon-button.danger:hover {
+  color: #ff6b6b;
+  background: #2a1b1b;
+}
+
+/* ========================================
+   EDITOR CONTENT
+======================================== */
+
+.editor-content {
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 100%);
+  height: 100%;
+  margin: 0 auto;
+  padding: 48px 52px;
+}
+
+.title-input {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #f4f4f4;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.title-input::placeholder {
+  color: #3f3f3f;
+}
+
+.tag-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 30px;
+  padding-top: 12px;
+}
+
+.content-input {
+  flex: 1;
+  width: 100%;
+  min-height: 300px;
+  margin-top: 20px;
+  padding: 0;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #c9c9c9;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.content-input::placeholder {
+  color: #454545;
+}
+
+.editor-footer {
+  padding: 12px 28px;
+  border-top: 1px solid #242424;
+  color: #4e4e4e;
+  font-size: 10px;
+  text-align: right;
+}
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.empty-editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #555555;
+  text-align: center;
+}
+
+.empty-editor h2 {
+  margin: 8px 0 0;
+  color: #888888;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.empty-editor p {
+  margin: 0 0 12px;
+  font-size: 12px;
+}
+
+/* ========================================
+   MOBILE ELEMENTS
+======================================== */
+
+.mobile-menu,
+.mobile-close,
+.mobile-top-actions,
+.mobile-back-notes {
+  display: none;
+}
+
+/* ========================================
+   OVERLAY
+======================================== */
+
+.sidebar-overlay {
+  display: none;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1024px) {
+  .app {
+    grid-template-columns: 210px 290px minmax(0, 1fr);
+  }
+
+  .editor-content {
+    padding: 40px;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+
+  body {
+    overflow: hidden;
+  }
+
+  .app {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+  }
+
+  /* -----------------------------
+     SIDEBAR
+  ----------------------------- */
+
+  .sidebar {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 270px;
+    height: 100dvh;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .mobile-close {
+    display: grid;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    z-index: 90;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  /* -----------------------------
+     NOTES LIST
+  ----------------------------- */
+
+  .notes-panel {
+    display: none;
+    position: fixed;
+    z-index: 80;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    border-right: 0;
+  }
+
+  .notes-panel.mobile-notes-open {
+    display: flex;
+  }
+
+  .mobile-top-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-menu {
+    display: grid;
+  }
+
+  /* -----------------------------
+     EDITOR
+  ----------------------------- */
+
+  .editor {
+    display: flex;
+    width: 100%;
+    height: 100dvh;
+  }
+
+  .editor-header {
+    justify-content: flex-end;
+    min-height: 60px;
+    padding: 12px 14px;
+  }
+
+  .mobile-back-notes {
+    display: block;
+    margin-right: auto;
+    padding: 7px 10px;
+    border: 0;
+    border-radius: 7px;
+    background: #222222;
+    color: #cccccc;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  .mobile-back-notes:active {
+    background: #2d2d2d;
+  }
+
+  .editor-content {
+    width: 100%;
+    height: 100%;
+    padding: 28px 20px;
+  }
+
+  .title-input {
+    font-size: 27px;
+  }
+
+  .content-input {
+    margin-top: 18px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .editor-footer {
+    padding: 10px 16px;
+  }
+
+  /* -----------------------------
+     MOBILE NOTE CARDS
+  ----------------------------- */
+
+  .notes-header {
+    min-height: 64px;
+    padding: 12px 14px;
+  }
+
+  .notes-header h1 {
+    font-size: 17px;
+  }
+
+  .search {
+    margin: 12px;
+  }
+
+  .notes-list {
+    padding: 0 8px 20px;
+  }
+
+  .note-card {
+    padding: 15px 13px;
+  }
+
+  .note-card h2 {
+    font-size: 14px;
+  }
+
+  .note-card > p {
+    font-size: 12px;
+  }
+}
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 380px) {
+
+  .sidebar {
+    width: 255px;
+  }
+
+  .editor-content {
+    padding: 24px 16px;
+  }
+
+  .title-input {
+    font-size: 25px;
+  }
+
+  .editor-actions {
+    gap: 2px;
+  }
+
+  .icon-button {
+    width: 34px;
+    height: 34px;
+  }
+}
